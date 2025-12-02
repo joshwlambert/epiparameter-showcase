@@ -1,0 +1,82 @@
+// Include theme-specific fonts
+@import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
+
+/*-- scss:defaults --*/
+// Override theme settings (see ../template/settings.scss)
+// Base settings for all themes that can optionally be
+// overridden by the super-theme
+
+// Background of the presentation
+$backgroundColor: #F8F8F8;
+
+// Primary/body text
+$mainFont: 'Jost', sans-serif;
+$mainFontSize: 30px;
+$mainColor: #333;
+
+// Vertical spacing between blocks of text
+$blockMargin: 20px;
+
+// Headings
+$headingMargin: 0 0 $blockMargin 0;
+$headingFont: 'Outfit', Impact, sans-serif;
+$headingColor: #106BA0;
+$headingLineHeight: 1.2;
+$headingLetterSpacing: normal;
+$headingTextTransform: none;
+$headingTextShadow: none;
+$headingFontWeight: normal;
+$heading1TextShadow: $headingTextShadow;
+$heading1Font: 'EB Garamond', serif;
+$heading2Font: 'EB Garamond', serif;
+
+$heading1Size: 2.50em;
+$heading2Size: 2.00em;
+$heading3Size: 1.50em;
+$heading4Size: 1.00em;
+
+// Set the code font
+$codeFont: 'JetBrains Mono', monospace;
+$font-family-monospace: 'JetBrains Mono', monospace !default;
+
+// Links and actions
+$linkColor: #000080;
+$linkColorHover: darken( $linkColor, 20% );
+
+// Text selection
+$selectionBackgroundColor: #FF5E99;
+$selectionColor: #fff;
+
+// start using css here
+#title-slide > h1 {
+  color: white;
+}
+
+#title-slide .author {
+  color: white;
+}
+
+#title-slide {
+  top: 0 !important;
+}
+
+#title-slide > .author:first-of-type {
+  margin-top: 320px;
+}
+
+.vspace {
+  height: 8rem;
+}
+
+.reveal code:not(pre code) {
+  font-size: 0.85em;   /* or 1.1em, or 18px, etc. */
+}
+
+.reveal h1,
+.reveal h2 {
+  font-family: 'EB Garamond', serif !important;
+}
+

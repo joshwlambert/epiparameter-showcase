@@ -1,0 +1,437 @@
+---
+format: 
+  revealjs:
+    theme: es-theme.scss
+    echo: true
+    width: 1100
+    height: 750
+---
+
+<center>
+
+<h2> Epiverse-TRACE Tool deep dive </h2>
+
+<h2> {epiparameter} </h2>
+
+<h4> With examples of interoperability with {superspreading} and {cfr} </h4>
+
+<h4> Joshua W. Lambert </h4>
+
+<h4> December 2025 </h4>
+
+</center>
+
+![](images/epiparameter-hex-logo.png){.absolute top=350 left=800 width="200"}
+![](images/LSHTM_Logo_Black.svg){.absolute top=300 left=-150 width="500"}
+
+![](images/Epiverse-TRACE.png){.absolute top=400 left=400 width="250"}
+
+# Part 1: Epidemiological Parameters in R
+
+## An R package for epidemiological parameters
+
+<br>
+
+### Why do we need epidemiological parameters?
+
+- Parameterise epidemiological models or inference methods in an outbreak
+  - Rapidly review the literature to find relevant estimates
+    - Error prone and duplicated effort across teams
+
+### Reproducible structured workflows
+
+- Epidemiological parameters can be structured and applied to outbreak analytics pipelines
+
+## The {epiparameter} R package
+
+![](images/epiparameter-hex-logo.png){.absolute top=0 left=900 width="200"}
+
+<div class="vspace"></div>
+
+The {epiparameter} R package contains a library of epidemiological parameters and helper functions and classes for working and applying them in epidemioligical analyses.
+
+<br>
+
+```{r}
+library(epiparameter)
+```
+
+## Loading epi-parameters from the database
+
+The single function required for reading epidemiological parameters into R using {epiparameter} is the `epiparameter_db()` function.
+
+By default this will give you all of the parameters from the database.
+
+```{r}
+epiparameter_db()
+```
+
+## Loading epi-parameters from the database
+
+### Filter by disease or pathogen:
+
+```{r}
+epiparameter_db(disease = "Ebola")
+```
+
+## Loading epi-parameters from the database
+
+### Filter by type of epidemiological parameter:
+
+```{r}
+epiparameter_db(epi_name = "incubation period")
+```
+
+## Loading epi-parameters from the database
+
+### Filter by study author:
+
+```{r}
+epiparameter_db(author = "Lessler")
+```
+
+## Loading epi-parameters from the database
+
+### Filter and return a single epiparameter:
+
+```{r}
+epiparameter_db(disease = "Ebola", single_epiparameter = TRUE)
+```
+
+## Accessing and converting from other epi-parameter databases
+
+The {epiparameter} package has been designed to utilise parameter from other databases.
+
+Currently, there is interoperability between {epiparameter} and {epireview}.
+
+{epireview} is an R package with systematic reviews of epidemiological parameters from the World Health Organization [priority pathogens](https://www.who.int/activities/prioritizing-diseases-for-research-and-development-in-emergency-contexts).
+
+For more information on how to use {epireview} with {epiparameter} please see the [Using {epireview} with {epiparameter} vignette](https://epiverse-trace.github.io/epiparameter/articles/data_from_epireview.html).
+
+## Creating epidemiological parameters
+
+<div class="vspace"></div>
+
+The {epiparameter} package provides a structure for working with epidemiological parameters: the `<epiparameter>` class.
+
+If the epi-parameter you want is not in the {epiparameter} or {epireview} databases, you can create an `<epiparameter>` object yourself using the `epiparameter()` function.
+
+## Using `<epiparameter>` objects
+
+<br>
+
+The benefit of using `<epiparameter>` objects is twofold:
+
+1. It provides a predictable structure for working with parameter data and developing outbreak analysis tools that expect them (more on this later)
+2. The {epiparameter} package provides class methods to enhance their usability
+  
+## `<epiparameter>` methods
+
+```{r}
+#| echo: false
+# read NAMESPACE
+namespace <- base::parseNamespaceFile("epiparameter", .libPaths()[1L]) # nolint: undesirable_function_linter
+s3methods <- namespace$S3methods
+epiparameter_class_methods <-
+  s3methods[which(s3methods[, 2] == "epiparameter"), 1]
+
+# create network with all methods around the central node
+getters <- c("family()", "get_citation()", "get_parameters()")
+modifiers <- c("discretise()", "as.function()")
+distribution_functions <- c("cdf()", "density()", "generate()", "quantile()")
+utilities <- c("print()", "plot()", "mean()", "c()", "format()")
+checkers <- c("is_epiparameter()", "is_parameterised()", "is_truncated()")
+conversions <- c(
+  "convert_params_to_summary_stats()", "convert_summary_stats_to_params()"
+)
+coercion <- "as.data.frame()"
+
+# add one to each for the intermediate group nodes
+groups <- data.frame(
+  group = c(
+    rep("Getters", length(getters) + 1),
+    rep("Modifiers", length(modifiers) + 1),
+    rep("Distribution functions", length(distribution_functions) + 1),
+    rep("Utilities", length(utilities) + 1),
+    rep("Checkers", length(checkers) + 1),
+    rep("Conversions", length(conversions) + 1),
+    rep("Coercion", length(coercion) + 1)
+  ),
+  functions = c(
+    c("Getters", getters),
+    c("Modifiers", modifiers),
+    c("Distribution functions", distribution_functions),
+    c("Utilities", utilities),
+    c("Checkers", checkers),
+    c("Conversions", conversions),
+    c("Coercion", coercion)
+  )
+)
+
+nodes <- data.frame(
+  id = seq_len(nrow(groups) + 1),
+  group = c("<epiparameter>", groups$group),
+  label = c("<epiparameter>", groups$functions),
+  shape = "box",
+  stringsAsFactors = FALSE
+)
+
+from <- seq_len(nrow(groups))
+
+# plus one for the central node
+to <- 2:(nrow(groups) + 2)
+
+for (grp in unique(groups$group)) {
+  # plus one for central node
+  from[which(groups$group == grp) + 1] <- min(which(groups$group == grp)) + 1
+}
+
+# set intermediate nodes to connect to central node
+from[groups$group == groups$functions] <- 1
+
+edges <- data.frame(
+  from = from,
+  to = to,
+  color = "black",
+  stringsAsFactors = FALSE
+)
+
+colours <- RColorBrewer::brewer.pal(
+  n = length(unique(nodes$group)),
+  name = "Set3"
+)
+
+# functions from parseNamespaceFile() need parentheses to match formatting
+epiparameter_class_methods <- paste0(epiparameter_class_methods, "()")
+if (!all(epiparameter_class_methods %in% groups$functions)) {
+  message(
+    "This diagram is out of date, as new methods have been added to the ",
+    "package which are not included."
+  )
+}
+
+library(visNetwork)
+visNetwork(nodes, edges) |>
+  visNodes(font = list(size = 18)) |>
+  visGroups(groupname = "<epiparameter>", color = colours[1]) |>
+  visGroups(groupname = "Getters", color = colours[2]) |>
+  visGroups(groupname = "Modifiers", color = colours[3]) |>
+  visGroups(
+    groupname = "Distribution functions",
+    color = colours[4]
+  ) |>
+  visGroups(groupname = "Utilities", color = colours[5]) |>
+  visGroups(groupname = "Checkers", color = colours[6]) |>
+  visGroups(groupname = "Conversions", color = colours[7]) |>
+  visGroups(groupname = "Coercion", color = colours[8])
+```
+
+::: aside
+
+This figure can also be found in the [Design Principles vignette](https://epiverse-trace.github.io/epiparameter/articles/design_principles.html).
+
+:::
+
+# Part 2: Extracting and converting epidemiological parameters
+
+## Extracting and converting epidemiological parameters
+
+Epidemiological parameters are reported in a variety of formats and parameterisations in the literature.
+
+{epiparameter} has functionality to _convert_ and _extract_ distribution parameters.
+
+:::: {.columns}
+
+::: {.column width="45%"}
+_Convert_: Distribution summary statistics (e.g. mean and standard deviation) that can be analytically converted into distribution parameters (e.g. shape and scale). The opposite conversion is also offered.
+
+- `convert_summary_stats_to_params()`
+- `convert_params_to_summary_stats()`
+:::
+
+::: {.column width="45%"}
+_Extract_: Distribution parameters can be extracted from statistics based on percentile or median and range using numerical optimisation.
+
+- `extract_param()`
+:::
+
+::::
+
+
+# Part 3: Introperability with other Epiverse-TRACE tools
+
+## _Interlude_: What is interoperability?
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](images/lego.png){.absolute top=75 left=-50 width="450"}
+:::
+
+::: {.column width="50%"}
+"Ability of a system ... to work with or use the parts or equipment of another system" - [Merriam-Webster, 2025](https://www.merriam-webster.com/dictionary/interoperability).
+
+<br>
+
+In Epiverse, it's the ability for tools to easier work together to form analysis pipelines. Ideally _natively_, but it can also be with some helper functions to combine tools.
+:::
+
+::::
+
+::: aside
+
+Lego Patent (1958)
+
+:::
+
+
+
+## 3a: The {superspreading} R package
+
+![](images/superspreading-hex-logo.svg){.absolute top=0 left=1000 width="200"}
+
+<div class="vspace"></div>
+
+The {superspreading} package contains functions for understanding if there is individual-level transmission heterogeneity (i.e. _superspreading_) in an outbreak.
+
+Here we will demonstrate how {epiparameter} and {superspreading} are interoperable.
+
+<br>
+
+```{r}
+library(superspreading)
+```
+
+## Probabily of an epidemic from the offspring distribution
+
+{epiparameter} contains estimated offspring distributions for a variety of pathogens.
+
+```{r}
+sars <- epiparameter_db(
+  disease = "SARS",
+  epi_name = "offspring distribution",
+  single_epiparameter = TRUE
+)
+sars_params <- get_parameters(sars)
+sars_params
+```
+
+```{r}
+evd <- epiparameter_db(
+  disease = "Ebola Virus Disease",
+  epi_name = "offspring distribution",
+  single_epiparameter = TRUE
+)
+evd_params <- get_parameters(evd)
+evd_params
+```
+
+## Probabily of an epidemic from the offspring distribution
+
+```{r}
+probability_epidemic(
+  R = sars_params[["mean"]],
+  k = sars_params[["dispersion"]],
+  num_init_infect = 1
+)
+```
+
+Or, even easier, pass the `<epiparameter>` object to `probability_epidemic()`.
+
+```{r}
+probability_epidemic(
+  offspring_dist = sars,
+  num_init_infect = 1
+)
+```
+
+```{r}
+probability_epidemic(
+  offspring_dist = evd,
+  num_init_infect = 1
+)
+```
+
+## 3b: The {cfr} R package
+
+![](images/cfr-hex-logo.svg){.absolute top=0 left=1000 width="200"}
+
+<div class="vspace"></div>
+
+The {cfr} package estimates disease severity and under-reporting in real-time, accounting for delays in epidemic time-series.
+
+Here we will demonstrate how {epiparameter} and {cfr} are interoperable.
+
+<br>
+
+```{r}
+library(cfr)
+```
+
+## Case fatality rate using onset-to-death delay distribution
+
+Here we'll use data included in the {cfr} package from the 1976 Ebola virus disease outbreak in the Democratic Republic of the Congo:
+
+```{r}
+data("ebola1976")
+head(ebola1976)
+```
+
+Load an Ebola onset-to-death delay distribution from the {epiparameter} database:
+
+```{r}
+ebola_onset_to_death <- epiparameter_db(
+  disease = "Ebola", 
+  epi_name = "onset to death", 
+  single_epiparameter = TRUE
+)
+```
+
+## Case fatality rate using onset-to-death delay distribution
+
+Calculate the case fatality rate (CFR) using the `cfr_static()` function:
+
+```{r}
+cfr_static(
+  ebola1976,
+  delay_density = as.function(ebola_onset_to_death)
+)
+```
+
+
+#### Why is `as.function()` required?
+
+{cfr} is not natively interoperable with {epiparameter}, in other words it does not work directly with `<epiparameter>` objects, like `probability_epidemic()`.
+
+`cfr_static()` requires a function so the `<epiparameter>` object can be transformed into a density function using the `as.function()` method provided by {epiparameter}.
+
+::: aside
+
+_Note_: `as.function()` can also transform `<epiparameter>` objects into random number generation functions, CDF, and quantile functions using the `func_type` argument, but the default is to transform to a density function. 
+
+:::
+
+## Epilogue: contributing to {epiparameter} (_Advanced_)
+
+The epidemioligical parameter database is stored in the {epiparameterDB} R package, which is loaded by {epiparameter}.
+
+To contribute to the parameter database, a new entry needs to be added to the `parameters.json` database file.
+
+This gets automatically validated using the `data_dictionary.json` to ensure all new entries match the data schema. 
+
+To contribute to the database please open a pull request adding to `parameters.json` or open an issue with the epidemiological parameters you would like to add and the reference they are extracted from.
+
+## Thank you for listening {.center}
+
+```{css}
+#| echo: false
+.center h2 {
+  text-align: center;
+}
+```
+
+<h2> <center>  Any questions? </center> </h2>
+
+<br>
+
+Please come and talk to me during with workshop to discuss any of the R packages mentioned.
