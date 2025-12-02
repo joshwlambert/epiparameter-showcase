@@ -399,7 +399,7 @@
 
 <center>
 <h2>
-Epiverse-TRACE Tool deep dive
+Epiverse-TRACE Tool Deep Dive
 </h2>
 <h2>
 {epiparameter}
@@ -734,6 +734,8 @@ Parameters:
 <p>Currently, there is interoperability between {epiparameter} and {epireview}.</p>
 <p>{epireview} is an R package with systematic reviews of epidemiological parameters from the World Health Organization <a href="https://www.who.int/activities/prioritizing-diseases-for-research-and-development-in-emergency-contexts">priority pathogens</a>.</p>
 <p>For more information on how to use {epireview} with {epiparameter} please see the <a href="https://epiverse-trace.github.io/epiparameter/articles/data_from_epireview.html">Using {epireview} with {epiparameter} vignette</a>.</p>
+<p><img data-src="images/epireview-hex-logo.png" class="absolute" style="top: 500px; left: 200px; width: 200px; "></p>
+<p><img data-src="images/epiparameter-hex-logo.png" class="absolute" style="top: 500px; left: 600px; width: 200px; "></p>
 </section>
 <section id="creating-epidemiological-parameters" class="slide level2">
 <h2>Creating epidemiological parameters</h2>
@@ -756,8 +758,8 @@ Parameters:
 <h2><code>&lt;epiparameter&gt;</code> methods</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div class="visNetwork html-widget html-fill-item" id="htmlwidget-98f546020cd32ada700c" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-98f546020cd32ada700c">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],"group":["<epiparameter>","Getters","Getters","Getters","Getters","Modifiers","Modifiers","Modifiers","Distribution functions","Distribution functions","Distribution functions","Distribution functions","Distribution functions","Utilities","Utilities","Utilities","Utilities","Utilities","Utilities","Checkers","Checkers","Checkers","Checkers","Conversions","Conversions","Conversions","Coercion","Coercion"],"label":["<epiparameter>","Getters","family()","get_citation()","get_parameters()","Modifiers","discretise()","as.function()","Distribution functions","cdf()","density()","generate()","quantile()","Utilities","print()","plot()","mean()","c()","format()","Checkers","is_epiparameter()","is_parameterised()","is_truncated()","Conversions","convert_params_to_summary_stats()","convert_summary_stats_to_params()","Coercion","as.data.frame()"],"shape":["box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box"]},"edges":{"from":[1,2,2,2,1,6,6,1,9,9,9,9,1,14,14,14,14,14,1,20,20,20,1,24,24,1,27],"to":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],"color":["black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","font":{"size":18}},"manipulation":{"enabled":false},"groups":{"<epiparameter>":{"color":"#8DD3C7"},"Getters":{"color":"#FFFFB3"},"Modifiers":{"color":"#BEBADA"},"Distribution functions":{"color":"#FB8072"},"Utilities":{"color":"#80B1D3"},"Checkers":{"color":"#FDB462"},"Conversions":{"color":"#B3DE69"},"useDefaultGroups":true,"Coercion":{"color":"#FCCDE5"}}},"groups":["<epiparameter>","Getters","Modifiers","Distribution functions","Utilities","Checkers","Conversions","Coercion"],"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)"},"evals":[],"jsHooks":[]}</script>
+<div class="visNetwork html-widget html-fill-item" id="htmlwidget-bf99a82e49303c8ea9ad" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-bf99a82e49303c8ea9ad">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],"group":["<epiparameter>","Getters","Getters","Getters","Getters","Modifiers","Modifiers","Modifiers","Distribution functions","Distribution functions","Distribution functions","Distribution functions","Distribution functions","Utilities","Utilities","Utilities","Utilities","Utilities","Utilities","Checkers","Checkers","Checkers","Checkers","Conversions","Conversions","Conversions","Coercion","Coercion"],"label":["<epiparameter>","Getters","family()","get_citation()","get_parameters()","Modifiers","discretise()","as.function()","Distribution functions","cdf()","density()","generate()","quantile()","Utilities","print()","plot()","mean()","c()","format()","Checkers","is_epiparameter()","is_parameterised()","is_truncated()","Conversions","convert_params_to_summary_stats()","convert_summary_stats_to_params()","Coercion","as.data.frame()"],"shape":["box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box","box"]},"edges":{"from":[1,2,2,2,1,6,6,1,9,9,9,9,1,14,14,14,14,14,1,20,20,20,1,24,24,1,27],"to":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],"color":["black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","font":{"size":18}},"manipulation":{"enabled":false},"groups":{"<epiparameter>":{"color":"#8DD3C7"},"Getters":{"color":"#FFFFB3"},"Modifiers":{"color":"#BEBADA"},"Distribution functions":{"color":"#FB8072"},"Utilities":{"color":"#80B1D3"},"Checkers":{"color":"#FDB462"},"Conversions":{"color":"#B3DE69"},"useDefaultGroups":true,"Coercion":{"color":"#FCCDE5"}}},"groups":["<epiparameter>","Getters","Modifiers","Distribution functions","Utilities","Checkers","Conversions","Coercion"],"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
@@ -798,6 +800,7 @@ Parameters:
 <div class="column" style="width:50%;">
 <p><img data-src="images/lego.png" class="absolute" style="top: 75px; left: -50px; width: 450px; "></p>
 </div><div class="column" style="width:50%;">
+<p><br></p>
 <p>“Ability of a system … to work with or use the parts or equipment of another system” - <a href="https://www.merriam-webster.com/dictionary/interoperability">Merriam-Webster, 2025</a>.</p>
 <p><br></p>
 <p>In Epiverse, it’s the ability for tools to easier work together to form analysis pipelines. Ideally <em>natively</em>, but it can also be with some helper functions to combine tools.</p>
@@ -941,6 +944,7 @@ Parameters:
 </div></aside></section>
 <section id="epilogue-contributing-to-epiparameter-advanced" class="slide level2">
 <h2>Epilogue: contributing to {epiparameter} (<em>Advanced</em>)</h2>
+<p><br></p>
 <p>The epidemioligical parameter database is stored in the {epiparameterDB} R package, which is loaded by {epiparameter}.</p>
 <p>To contribute to the parameter database, a new entry needs to be added to the <code>parameters.json</code> database file.</p>
 <p>This gets automatically validated using the <code>data_dictionary.json</code> to ensure all new entries match the data schema.</p>

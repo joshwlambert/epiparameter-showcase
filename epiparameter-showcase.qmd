@@ -9,7 +9,7 @@ format:
 
 <center>
 
-<h2> Epiverse-TRACE Tool deep dive </h2>
+<h2> Epiverse Tool Deep Dive </h2>
 
 <h2> {epiparameter} </h2>
 
@@ -107,6 +107,11 @@ Currently, there is interoperability between {epiparameter} and {epireview}.
 {epireview} is an R package with systematic reviews of epidemiological parameters from the World Health Organization [priority pathogens](https://www.who.int/activities/prioritizing-diseases-for-research-and-development-in-emergency-contexts).
 
 For more information on how to use {epireview} with {epiparameter} please see the [Using {epireview} with {epiparameter} vignette](https://epiverse-trace.github.io/epiparameter/articles/data_from_epireview.html).
+
+![](images/epireview-hex-logo.png){.absolute top=500 left=200 width="200"}
+
+![](images/epiparameter-hex-logo.png){.absolute top=500 left=600 width="200"}
+
 
 ## Creating epidemiological parameters
 
@@ -269,6 +274,8 @@ _Extract_: Distribution parameters can be extracted from statistics based on per
 :::
 
 ::: {.column width="50%"}
+<br>
+
 "Ability of a system ... to work with or use the parts or equipment of another system" - [Merriam-Webster, 2025](https://www.merriam-webster.com/dictionary/interoperability).
 
 <br>
@@ -412,6 +419,8 @@ _Note_: `as.function()` can also transform `<epiparameter>` objects into random 
 :::
 
 ## Epilogue: contributing to {epiparameter} (_Advanced_)
+
+<br>
 
 The epidemioligical parameter database is stored in the {epiparameterDB} R package, which is loaded by {epiparameter}.
 
