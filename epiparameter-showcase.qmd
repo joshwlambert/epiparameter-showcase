@@ -21,7 +21,7 @@ format:
 
 </center>
 
-![](images/epiparameter-hex-logo.png){.absolute top=350 left=800 width="200"}
+![](images/epiparameter-hex-logo.png){.absolute top=375 left=825 width="200"}
 ![](images/LSHTM_Logo_Black.svg){.absolute top=300 left=-150 width="500"}
 
 ![](images/Epiverse-TRACE.png){.absolute top=400 left=400 width="250"}
@@ -48,7 +48,7 @@ format:
 
 <div class="vspace"></div>
 
-The {epiparameter} R package contains a library of epidemiological parameters and helper functions and classes for working and applying them in epidemioligical analyses.
+The {epiparameter} R package contains a library of epidemiological parameters and helper functions and classes for working with and applying them in epidemioligical analyses.
 
 <br>
 
@@ -95,7 +95,7 @@ epiparameter_db(author = "Lessler")
 ### Filter and return a single epiparameter:
 
 ```{r}
-epiparameter_db(disease = "Ebola", single_epiparameter = TRUE)
+epiparameter_db(disease = "Ebola", epi_name = "incubation", single_epiparameter = TRUE)
 ```
 
 ## Accessing and converting from other epi-parameter databases
@@ -280,7 +280,7 @@ _Extract_: Distribution parameters can be extracted from statistics based on per
 
 <br>
 
-In Epiverse, it's the ability for tools to easier work together to form analysis pipelines. Ideally _natively_, but it can also be with some helper functions to combine tools.
+In Epiverse, it's the ability for tools to easily work together to form analysis pipelines. Ideally _natively_, but it can also be with some helper functions to combine tools.
 :::
 
 ::::
